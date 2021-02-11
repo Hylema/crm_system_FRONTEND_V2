@@ -1,25 +1,35 @@
 {
   "compilerOptions": {
+    "noImplicitAny": false,
+    "allowJs": true,
     "target": "esnext",
     "module": "esnext",
     "strict": true,
+    "strictNullChecks": false,
     "jsx": "preserve",
     "importHelpers": true,
     "moduleResolution": "node",
-    "experimentalDecorators": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "baseUrl": ".",
+    "typeRoots": [
+      "./node_modules/@types",
+      "./node_modules/vuetify/types"
+    ],
     "types": [
       "webpack-env",
       "mocha",
-      "chai"
+      "chai",
+      "vuetify"
     ],
     "paths": {
       "@/*": [
-        "src/*"
+        "src/*",
+        "./*"
       ]
     },
     "lib": [

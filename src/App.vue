@@ -1,32 +1,56 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-  </div>
+  <v-app id="app">
+    <v-main class="background">
+      <RouterView />
+    </v-main>
+  </v-app>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
+<script lang="ts">
+import Vue from 'vue'
+export default Vue.extend({
+  name: 'App',
+  components: {},
+  data: () => ({
+    themeIsSet: false
+  }),
+  computed: {
+    themeIsDark (): boolean {
+      return this.$storeModules.theme.getThemeIsDark
     }
-  }
-}
-</style>
+  },
+  watch: {
+    themeIsDark: {
+      async handler (newValue: boolean) {
+        const head = document.head || document.getElementsByTagName('head')[0]
+        const link: any = document.createElement('link')
+
+        link.rel = 'stylesheet'
+        link.href = 'stylesheet'
+        link.id = 'crutch'
+
+        if (newValue) link.href = 'darkTheme.module.css'
+        else link.href = 'light.module.css'
+
+        head.appendChild(link)
+
+        if (this.themeIsSet) {
+          setTimeout(() => {
+            const allLinksLength: number = document.querySelectorAll('link').length
+
+            document.querySelectorAll('link').forEach((value, index: number) => {
+              if (value.id && value.id === 'crutch' && index !== allLinksLength - 1) {
+                value.remove()
+              }
+            })
+          }, 1000)
+        }
+
+        this.themeIsSet = true
+      },
+      immediate: true
+    }
+  },
+  methods: {}
+})
+</script>
